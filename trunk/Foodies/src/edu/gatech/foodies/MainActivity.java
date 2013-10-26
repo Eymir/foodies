@@ -75,7 +75,6 @@ public class MainActivity extends FragmentActivity {
 				Log.v("Recipe result", result.get(i).getName());
 			}
 		}
-		Log.v("Pics result",myDB.getInPics("Egg", true));
 	}
 	
 	@Override
