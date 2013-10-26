@@ -3,12 +3,15 @@ package edu.gatech.foodies;
 import edu.gatech.foodies.adapters.ImageAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class IngredientsFragment extends Fragment {
 	GridView gridView;
@@ -27,6 +30,8 @@ public class IngredientsFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
+				Log.v("imagebutton","did it run?");
+				((ImageView)v).setImageResource(android.R.drawable.ic_delete);
 				
 				
 			}
