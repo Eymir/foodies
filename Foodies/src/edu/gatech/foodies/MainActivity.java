@@ -32,10 +32,8 @@ public class MainActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
-	DBAdapter data;
-
-
+	DBAdapter myDB = new DBAdapter(this);
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,7 +63,6 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		DBAdapter myDB = new DBAdapter(this);
 		myDB.createDB();
 		myDB.openDB();
 
@@ -78,7 +75,12 @@ public class MainActivity extends FragmentActivity {
 				Log.v("Recipe result", result.get(i).getName());
 			}
 		}
-		Log.v("Pics result",myDB.getPics("Egg", true));
+		Log.v("Pics result",myDB.getInPics("Egg", true));
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
 		myDB.closeDB();
 	}
 

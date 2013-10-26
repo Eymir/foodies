@@ -74,13 +74,14 @@ public class DBAdapter {
 				}
 				myCur.close();
 			}
+			myCur.close();
 			return result;
 		} catch (SQLException e) {
 			throw e;
 		}
 	}
 	
-	public String getPics(String name, boolean pressed) {
+	public String getInPics(String name, boolean pressed) {
 		String result = "";
 		try {
 			String column;
@@ -89,17 +90,61 @@ public class DBAdapter {
 			} else {
 				column = "No";
 			}
-			String sql = "select "+column+" from Pics where Name = '"+name+"'";
+			String sql = "select "+column+" from Pics_In where Name = '"+name+"'";
 			Cursor myCur = myDB.rawQuery(sql, null);
 			if(myCur != null) {
 				myCur.moveToFirst();
 				result = myCur.getString(0);
 			}
+			myCur.close();
 			return result;
 		} catch (SQLException e) {
 			throw e;
 		}
 		
+	}
+	
+	public String getTypePics(String name, boolean pressed) {
+		String result = "";
+		try {
+			String column;
+			if(pressed) {
+				column = "Yes";
+			} else {
+				column = "No";
+			}
+			String sql = "select "+column+" from Pics_Type where Name = '"+name+"'";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				result = myCur.getString(0);
+			}
+			myCur.close();
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+		
+	}
+	
+	public ArrayList<String> getInPicsNo() {
+		ArrayList<String> result = new ArrayList<String>();
+		try {
+			String sql = "select No from Pics_In";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				while(!myCur.isAfterLast()) {
+					String s = myCur.getString(0);
+					result.add(s);
+					myCur.moveToNext();
+				}
+			}
+			myCur.close();
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
 	}
 
 	private Recipe cursorToRecipe(Cursor cur) {
