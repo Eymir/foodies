@@ -5,5 +5,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/action_basket"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_basket"
+        android:title="@string/action_basket"/>
 
 </menu>
