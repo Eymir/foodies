@@ -45,12 +45,13 @@ public class DBAdapter {
 		myHelper.close();
 	}
 
-	public ArrayList<Recipe> getRecipe(SQL_args... args) {
+	public ArrayList<Recipe> getRecipe(ArrayList<SQL_args> args) {
 		try {
 			ArrayList<Recipe> result = new ArrayList<Recipe>();
 			String sql = "";
 			ArrayList<String> type = new ArrayList<String>();
-			for(SQL_args a : args) {
+			for(int k = 0; k < args.size(); k++) {
+				SQL_args a = args.get(k);
 				String attr = a.getAttr();
 				String value = a.getValue();
 				if(attr.equals("Ingredients")) {
