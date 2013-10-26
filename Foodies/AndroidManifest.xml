@@ -30,6 +30,10 @@
             android:name="edu.gatech.foodies.ResultActivity"
             android:label="@string/title_activity_result" >
         </activity>
+        <activity
+            android:name="edu.gatech.foodies.RecipeActivity"
+            android:label="@string/title_activity_recipe" >
+        </activity>
     </application>
 
 </manifest>
