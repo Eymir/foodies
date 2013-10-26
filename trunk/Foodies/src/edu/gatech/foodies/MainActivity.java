@@ -2,20 +2,15 @@ package edu.gatech.foodies;
 
 import java.util.Locale;
 
+import edu.gatech.foodies.database.DBAdapter;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity  {
 
@@ -33,6 +28,8 @@ public class MainActivity extends FragmentActivity  {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	DBAdapter data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +45,13 @@ public class MainActivity extends FragmentActivity  {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		data = new DBAdapter(this);
+		data.openDB();
 	}
 
 	@Override
