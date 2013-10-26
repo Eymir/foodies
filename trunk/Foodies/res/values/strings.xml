@@ -3,6 +3,11 @@
 
     <string name="app_name">Foodies</string>
     <string name="action_settings">Settings</string>
+    <string name="action_basket">Basket</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Ingredients</string>
+    <string name="title_section2">Dish Type</string>
+    <string name="title_section3">Options</string>
+	
 </resources>
