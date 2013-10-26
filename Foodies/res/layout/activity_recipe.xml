@@ -1,8 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".RecipeActivity" >
 
     <RelativeLayout
@@ -28,9 +28,9 @@
             android:id="@+id/recipe_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/recipe_image"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/recipe_name"
-            android:text="TextView" />
+            android:text="Soup" />
 
         <ImageView
             android:id="@+id/recipe_image"
@@ -45,21 +45,21 @@
             android:id="@+id/recipe_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_below="@+id/recipe_image"
-            android:layout_marginTop="36dp"
-            android:layout_toLeftOf="@+id/recipe_image"
-            android:text="Medium Text"
+            android:layout_centerHorizontal="true"
+            android:text="Time: 5 min"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/recipe_serving"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/recipe_time"
-            android:layout_below="@+id/recipe_image"
-            android:layout_marginTop="36dp"
-            android:layout_toRightOf="@+id/recipe_image"
-            android:text="Medium Text"
+            android:layout_below="@+id/recipe_time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            
+            android:text="Serving: 4"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/recipe_time"
             android:layout_marginTop="36dp"
-            android:text="TextView" />
+            android:text="Ingredients:" />
 
         <TextView
             android:id="@+id/recipe_instruction"
@@ -78,7 +78,7 @@
             android:layout_alignLeft="@+id/recipe_ingredients"
             android:layout_below="@+id/recipe_ingredients"
             android:layout_marginTop="32dp"
-            android:text="TextView" />
+            android:text="Instruction:" />
     </RelativeLayout>
 
 </ScrollView>

@@ -2,15 +2,19 @@ package edu.gatech.foodies;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
@@ -180,5 +184,12 @@ public class MainActivity extends FragmentActivity {
 
 		}
 	}
+	
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+		 Intent i = new Intent(this, ResultActivity.class);
+			startActivity(i);
+			return false;
+	    }
 
 }
