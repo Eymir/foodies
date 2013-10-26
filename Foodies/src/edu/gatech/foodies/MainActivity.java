@@ -70,10 +70,13 @@ public class MainActivity extends FragmentActivity {
 		myDB.openDB();
 
 		SQL_args a = new SQL_args("Ingredients", "egg");
-		SQL_args b = new SQL_args("Servings", "8");
+		SQL_args b = new SQL_args("Time", "30");
 		ArrayList<Recipe> result = myDB.getRecipe(a,b);
 		if(!result.isEmpty()) {
-			Log.v("DB test result", result.get(0).getIngredients());
+			int len = result.size();
+			for(int i = 0; i < len; i++){
+				Log.v("DB test result", result.get(i).getName());
+			}
 		}
 		myDB.closeDB();
 	}

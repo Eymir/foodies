@@ -3,7 +3,8 @@ package edu.gatech.foodies.database;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.gatech.foodies.vo.*;
+import edu.gatech.foodies.vo.Recipe;
+import edu.gatech.foodies.vo.SQL_args;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -52,7 +53,10 @@ public class DBAdapter {
 				String attr = a.getAttr();
 				String value = a.getValue();
 				if(attr.equals("Ingredients")) {
-					sql = sql + "select * from Recipe where "+attr+" LIKE '%"+value+"%'";
+					sql = sql + "select * from Recipe where Ingredients LIKE '%"+value+"%'";
+					sql = sql + " intersect ";
+				} else if(attr.equals("Time")){
+					sql = sql + "select * from Recipe where Time <= '"+value+"'";
 					sql = sql + " intersect ";
 				} else {
 					sql = sql + "select * from Recipe where "+attr+" = '"+value+"'";
