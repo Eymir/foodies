@@ -9,5 +9,6 @@
     <string name="title_section1">Ingredients</string>
     <string name="title_section2">Dish Type</string>
     <string name="title_section3">Options</string>
-	
+    <string name="title_activity_result">Your Recipes</string>
+
 </resources>

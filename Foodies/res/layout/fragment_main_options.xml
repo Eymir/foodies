@@ -6,5 +6,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
+    
+    <NumberPicker
+        android:id="@+id/picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+</NumberPicker>
+
+    <Button
+        android:id="@+id/btn_findrecipes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="51dp"
+        android:text="Find Recipes" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/picker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="47dp"
+        android:text="Preparation Time"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

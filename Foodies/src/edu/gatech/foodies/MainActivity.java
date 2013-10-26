@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 		mTabsAdapter.addTab(bar.newTab().setText("Dish Type"),
 				TypeFragment.class, null);
 		mTabsAdapter.addTab(bar.newTab().setText("Options"),
-				IngredientsFragment.class, null);
+				OptionsFragment.class, null);
 
 		if (savedInstanceState != null) {
 			bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
