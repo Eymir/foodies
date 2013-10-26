@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,42 +16,42 @@ import edu.gatech.foodies.adapters.TypeAdapter;
 import edu.gatech.foodies.database.DBAdapter;
 
 public class TypeFragment extends Fragment {
-DBAdapter myDB;
-	
+	DBAdapter myDB;
+
 	ArrayList<String> typePicsNo;
 	ArrayList<Integer> typePicsNoId;
-	
+
 	ArrayList<String> typePicsYes;
 	ArrayList<Integer> typePicsYesId;
-	
-	static ArrayList<Boolean> typeBoolList; 
+
+	ArrayList<Boolean> typeBoolList; 
 	ArrayList<String> typePicsName;
 	ArrayList<String> typeResult;
 	GridView gridView;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		myDB = new DBAdapter(getActivity());
 		myDB.createDB();
 		myDB.openDB();
-		
+
 		typeBoolList = new ArrayList<Boolean>();
 		typeResult = new ArrayList<String>();
-		typePicsName = myDB.getInPicsName();
+		typePicsName = myDB.getTypePicsName();
 
 		typePicsNo = myDB.getTypePics("No");
 		typePicsNoId = new ArrayList<Integer>();
-		
+
 		for(String s : typePicsNo) {
 			int id = getActivity().getResources().getIdentifier(s, "drawable", getActivity().getPackageName());
 			typePicsNoId.add(id);
 			typeBoolList.add(false);
 		}
-		
+
 		typePicsYes = myDB.getTypePics("Yes");
 		typePicsYesId = new ArrayList<Integer>();
-		
+
 		for(String s : typePicsYes) {
 			int id = getActivity().getResources().getIdentifier(s, "drawable", getActivity().getPackageName());
 			typePicsYesId.add(id);
@@ -75,5 +76,23 @@ DBAdapter myDB;
 			}
 		});
 		return rootView;
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		for(int i = 0; i < typeBoolList.size(); i++){
+			if(typeBoolList.get(i)) {
+				typeResult.add(typePicsName.get(i));
+			}
+		}
+		Bundle b = new Bundle();
+		for(int i = 0; i < typeResult.size(); i++) {
+			b.putString(""+i, typeResult.get(i));
+			Log.v("bunble 2", typeResult.get(i));
+		}
+		MainActivity a = (MainActivity)getActivity();
+		a.saveData(2, b);
+		myDB.closeDB();
 	}
 }
