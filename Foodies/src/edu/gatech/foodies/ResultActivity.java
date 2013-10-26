@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -147,6 +149,17 @@ public class ResultActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setListAdapter(new EfficientAdapter(this));
+        
+    }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id){
+    	super.onListItemClick(l, v, position, id);
+    	Intent i = new Intent(this, RecipeActivity.class);
+    	
+    	i.putExtra("RECIPE_NAME", DATA[position]);
+    	startActivity(i);
+    	
     }
 
     private static final String[] DATA = {"Pancakes", "Egg Drop Soup", "Salmon Mousse", "Chocolate Cookies"};
