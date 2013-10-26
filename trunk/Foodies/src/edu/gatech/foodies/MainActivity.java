@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 		mTabsAdapter.addTab(bar.newTab().setIcon(android.R.drawable.ic_delete),
 				IngredientsFragment.class, null);
 		mTabsAdapter.addTab(bar.newTab().setText("Dish Type"),
-				IngredientsFragment.class, null);
+				TypeFragment.class, null);
 		mTabsAdapter.addTab(bar.newTab().setText("Options"),
 				IngredientsFragment.class, null);
 

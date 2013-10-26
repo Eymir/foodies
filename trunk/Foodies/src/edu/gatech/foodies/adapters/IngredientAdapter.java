@@ -5,15 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import edu.gatech.foodies.R;
 
-public class ImageAdapter extends BaseAdapter {
+public class IngredientAdapter extends BaseAdapter {
 	private Context context;
 	private final String[] mobileValues;
 
-	public ImageAdapter(Context context, String[] mobileValues) {
+	public IngredientAdapter(Context context, String[] mobileValues) {
 		this.context = context;
 		this.mobileValues = mobileValues;
 	}
@@ -30,7 +29,7 @@ public class ImageAdapter extends BaseAdapter {
 			gridView = new View(context);
 
 			// get layout from mobile.xml
-			gridView = inflater.inflate(R.layout.mobile, null);
+			gridView = inflater.inflate(R.layout.ingredient_grid_item, null);
 
 	
 			// set image based on selected text
