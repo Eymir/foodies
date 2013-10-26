@@ -1,5 +1,7 @@
 package edu.gatech.foodies.adapters;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,66 +9,53 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import edu.gatech.foodies.R;
+import android.util.*;
 
 public class IngredientAdapter extends BaseAdapter {
-	private Context context;
-	private final String[] mobileValues;
+        private Context context;
+        private ArrayList<Integer> inPicsNoId;
 
-	public IngredientAdapter(Context context, String[] mobileValues) {
-		this.context = context;
-		this.mobileValues = mobileValues;
-	}
+        public IngredientAdapter(Context context, ArrayList<Integer> inPicsNoId) {
+                this.context = context;
+                this.inPicsNoId = inPicsNoId;
+        }
+        
+        public View getView(int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View gridView;
 
-	public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                        gridView = new View(context);
 
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        // get layout from mobile.xml
+                        gridView = inflater.inflate(R.layout.ingredient_grid_item, null);
 
-		View gridView;
+                        // set image based on selected text
+                        ImageView imageView = (ImageView) gridView.findViewById(R.id.grid_item_image);
+                        
+                        Log.d("Debug", "Before set image");	
+                        
+                        imageView.setImageResource(inPicsNoId.get(position));
 
-		if (convertView == null) {
+                } else {
+                        gridView = (View) convertView;
+                }
+                return gridView;
+        }
 
-			gridView = new View(context);
+        @Override
+        public int getCount() {
+                return inPicsNoId.size();
+        }
 
-			// get layout from mobile.xml
-			gridView = inflater.inflate(R.layout.ingredient_grid_item, null);
+        @Override
+        public Object getItem(int position) {
+                return null;
+        }
 
-			// set image based on selected text
-			ImageView imageView = (ImageView) gridView
-					.findViewById(R.id.grid_item_image);
-
-			String mobile = mobileValues[position];
-
-			if (mobile.equals("Windows")) {
-				imageView.setImageResource(R.drawable.windows_logo);
-			} else if (mobile.equals("iOS")) {
-				imageView.setImageResource(R.drawable.ios_logo);
-			} else if (mobile.equals("Blackberry")) {
-				imageView.setImageResource(R.drawable.blackberry_logo);
-			} else {
-				imageView.setImageResource(R.drawable.android_logo);
-			}
-
-		} else {
-			gridView = (View) convertView;
-		}
-
-		return gridView;
-	}
-
-	@Override
-	public int getCount() {
-		return mobileValues.length;
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return null;
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return 0;
-	}
+        @Override
+        public long getItemId(int position) {
+                return 0;
+        }
 
 }
