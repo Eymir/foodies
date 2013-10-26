@@ -50,8 +50,10 @@ public class MainActivity extends FragmentActivity  {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		data = new DBAdapter(this);
-		data.openDB();
+		DBAdapter myDB = new DBAdapter(this);
+		myDB.createDB();
+		myDB.openDB();
+		myDB.testDB();
 	}
 
 	@Override

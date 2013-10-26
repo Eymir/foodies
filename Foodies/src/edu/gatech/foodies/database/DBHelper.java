@@ -9,86 +9,107 @@ import java.io.OutputStream;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 	
-	private SQLiteDatabase myDatabase;
+	private SQLiteDatabase myDataBase;
 	private final Context myContext;
-	private static String DB_NAME = "foodies.db";
-	public static String DB_PATH = "";
+	private static final String DATABASE_NAME = "foodies.db";
+	public final static String DATABASE_PATH = "/data/data/com.example.dbtest/databases/";
+	public static final int DATABASE_VERSION = 1;
 
+	//Constructor
 	public DBHelper(Context context) {
-		super(context, DB_NAME, null, 1);
-		if(android.os.Build.VERSION.SDK_INT >= 4.2) {
-			DB_PATH = context.getApplicationInfo().dataDir + "/databases/";         
-		}
-		else {
-			DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
-		}
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.myContext = context;
 	}
-	
-	// If database doesn't exist copy it from assets
-	public void createDB() throws IOException {
-		boolean dbExists = checkDB();
-		if(!dbExists) {
+
+	//Create a empty database on the system
+	public void createDatabase() throws IOException {
+		boolean dbExist = checkDataBase();
+		if(dbExist)	{
+			Log.v("DB Exists", "db exists");
+			// By calling this method here onUpgrade will be called on a
+			// writeable database, but only if the version number has been
+			// bumped
+			//onUpgrade(myDataBase, DATABASE_VERSION_old, DATABASE_VERSION);
+		}
+		boolean dbExist1 = checkDataBase();
+		if(!dbExist1) {
 			this.getReadableDatabase();
-			this.close();
-			try {
-				copyDB();
-			} catch (IOException e) {
-				throw new Error("Error copying DB");
+			try	{
+				this.close();    
+				copyDataBase();
+			} catch (IOException e)	{
+				throw new Error("Error copying database");
 			}
 		}
 	}
-	
-	//Check if database exists
-	private boolean checkDB() {
-		File dbFile = new File(DB_PATH + DB_NAME);
-		return dbFile.exists();
-	}
-	
-	//Copy the database from assets
-	private void copyDB() throws IOException {
-		InputStream myInput = myContext.getAssets().open(DB_NAME);
-		String outFile = DB_PATH + DB_NAME;
-		OutputStream myOutput = new FileOutputStream(outFile);
-		byte[] mBuffer = new byte[1024];
-        int len;
-        while ((len = myInput.read(mBuffer)) > 0) {
-            myOutput.write(mBuffer, 0, len);
-        }
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
+
+	//Check database already exist or not
+	private boolean checkDataBase()	{
+		boolean checkDB = false;
+		try	{
+			String myPath = DATABASE_PATH + DATABASE_NAME;
+			File dbfile = new File(myPath);
+			checkDB = dbfile.exists();
+		} catch(SQLiteException e) {
+			throw e;
+		}
+		return checkDB;
 	}
 
-	//Open the database, so we can query it
-    public boolean openDB() throws SQLException
-    {
-        String mPath = DB_PATH + DB_NAME;
-        myDatabase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        return myDatabase != null;
-    }
-    
-    @Override
-    public synchronized void close() 
-    {
-        if(myDatabase != null)
-            myDatabase.close();
-        super.close();
-    }
+	//Copies your database from your local assets-folder to the just created empty database in the system folder
+	private void copyDataBase() throws IOException {
+		String outFileName = DATABASE_PATH + DATABASE_NAME;
+		OutputStream myOutput = new FileOutputStream(outFileName);
+		InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = myInput.read(buffer)) > 0)
+		{
+			myOutput.write(buffer, 0, length);
+		}
+		myInput.close();
+		myOutput.flush();
+		myOutput.close();
+	}
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
+	//delete database
+	public void db_delete() {
+		File file = new File(DATABASE_PATH + DATABASE_NAME);
+		if(file.exists()) {
+			file.delete();
+			System.out.println("delete database file.");
+		}
+	}
+
+	//Open database
+	public void openDatabase() throws SQLException {
+		String myPath = DATABASE_PATH + DATABASE_NAME;
+		myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+	}
+
+	public synchronized void closeDataBase()throws SQLException {
+		if(myDataBase != null) {
+			myDataBase.close();
+		}
+		super.close();
+	}
+
+	public void onCreate(SQLiteDatabase db)	{
 		
 	}
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-		
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {    
+		if (newVersion > oldVersion) {
+			Log.v("Database Upgrade", "Database version higher than old.");
+			db_delete();
+		}
 	}
+	//add your public methods for insert, get, delete and update data in database.
 
 }
