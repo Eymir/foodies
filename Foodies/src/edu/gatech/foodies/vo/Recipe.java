@@ -2,6 +2,7 @@ package edu.gatech.foodies.vo;
 
 public class Recipe {
 	
+	private String Type;
 	private String Name;
 	private String Ingredients;
 	private int Time;
@@ -9,6 +10,15 @@ public class Recipe {
 	private String Instruction;
 	
 	public Recipe(){}
+
+	
+	public String getType() {
+		return Type;
+	}
+
+	public void setType(String type) {
+		Type = type;
+	}
 
 	public String getName() {
 		return Name;

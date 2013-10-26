@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import edu.gatech.foodies.database.DBAdapter;
 import edu.gatech.foodies.vo.Recipe;
+import edu.gatech.foodies.vo.SQL_args;
 
 public class MainActivity extends FragmentActivity {
 
@@ -62,14 +63,17 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume(){
 		super.onResume();
 		DBAdapter myDB = new DBAdapter(this);
 		myDB.createDB();
 		myDB.openDB();
-		ArrayList<Recipe> result = myDB.getRecipeByServing();
-		if (!result.isEmpty()) {
-			Log.v("DB test", result.get(0).getIngredients());
+
+		SQL_args a = new SQL_args("Ingredients", "egg");
+		SQL_args b = new SQL_args("Servings", "8");
+		ArrayList<Recipe> result = myDB.getRecipe(a,b);
+		if(!result.isEmpty()) {
+			Log.v("DB test result", result.get(0).getIngredients());
 		}
 		myDB.closeDB();
 	}
