@@ -79,6 +79,28 @@ public class DBAdapter {
 			throw e;
 		}
 	}
+	
+	public String getPics(String name, boolean pressed) {
+		String result = "";
+		try {
+			String column;
+			if(pressed) {
+				column = "Yes";
+			} else {
+				column = "No";
+			}
+			String sql = "select "+column+" from Pics where Name = '"+name+"'";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				result = myCur.getString(0);
+			}
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+		
+	}
 
 	private Recipe cursorToRecipe(Cursor cur) {
 		Recipe r = new Recipe();

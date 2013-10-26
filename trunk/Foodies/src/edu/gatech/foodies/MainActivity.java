@@ -75,9 +75,10 @@ public class MainActivity extends FragmentActivity {
 		if(!result.isEmpty()) {
 			int len = result.size();
 			for(int i = 0; i < len; i++){
-				Log.v("DB test result", result.get(i).getName());
+				Log.v("Recipe result", result.get(i).getName());
 			}
 		}
+		Log.v("Pics result",myDB.getPics("Egg", true));
 		myDB.closeDB();
 	}
 
