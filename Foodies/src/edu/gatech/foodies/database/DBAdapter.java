@@ -126,26 +126,26 @@ public class DBAdapter {
 //		}
 //		
 //	}
-//	
-//	public ArrayList<String> getInPicsNo() {
-//		ArrayList<String> result = new ArrayList<String>();
-//		try {
-//			String sql = "select No from Pics_In";
-//			Cursor myCur = myDB.rawQuery(sql, null);
-//			if(myCur != null) {
-//				myCur.moveToFirst();
-//				while(!myCur.isAfterLast()) {
-//					String s = myCur.getString(0);
-//					result.add(s);
-//					myCur.moveToNext();
-//				}
-//			}
-//			myCur.close();
-//			return result;
-//		} catch (SQLException e) {
-//			throw e;
-//		}
-//	}
+	
+	public ArrayList<String> getInPicsNo() {
+		ArrayList<String> result = new ArrayList<String>();
+		try {
+			String sql = "select No from Pics_In where No is not null";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				while(!myCur.isAfterLast()) {
+					String s = myCur.getString(0);
+					result.add(s);
+					myCur.moveToNext();
+				}
+			}
+			myCur.close();
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+	}
 
 	private Recipe cursorToRecipe(Cursor cur) {
 		Recipe r = new Recipe();
