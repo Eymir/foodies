@@ -149,6 +149,7 @@ public class ResultActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setListAdapter(new EfficientAdapter(this));
+        getListView().setBackgroundColor(getResources().getColor(R.color.green));
         
     }
     
