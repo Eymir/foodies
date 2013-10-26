@@ -90,7 +90,7 @@ public class DBAdapter {
 	public ArrayList<String> getInPicsName() {
 		try {
 			ArrayList<String> result = new ArrayList<String>();
-			String sql = "select Name from Pics_In";
+			String sql = "select Name from Pics_In where Yes is not null";
 			Cursor myCur = myDB.rawQuery(sql, null);
 			if(myCur != null) {
 				myCur.moveToFirst();
@@ -110,7 +110,7 @@ public class DBAdapter {
 	public ArrayList<String> getTypePicsName() {
 		try {
 			ArrayList<String> result = new ArrayList<String>();
-			String sql = "select Name from Pics_Type";
+			String sql = "select Name from Pics_Type where Yes is not null";
 			Cursor myCur = myDB.rawQuery(sql, null);
 			if(myCur != null) {
 				myCur.moveToFirst();
