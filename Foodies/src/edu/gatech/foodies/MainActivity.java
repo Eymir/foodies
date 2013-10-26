@@ -1,8 +1,11 @@
 package edu.gatech.foodies;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
+
 import edu.gatech.foodies.database.DBAdapter;
+import edu.gatech.foodies.vo.*;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 
 public class MainActivity extends FragmentActivity  {
@@ -53,7 +57,11 @@ public class MainActivity extends FragmentActivity  {
 		DBAdapter myDB = new DBAdapter(this);
 		myDB.createDB();
 		myDB.openDB();
-		myDB.testDB();
+		ArrayList<Recipe> result = myDB.getRecipeByServing();
+		if(!result.isEmpty()) {
+			Log.v("DB test", result.get(0).getIngredients());
+		}
+		myDB.closeDB();
 	}
 
 	@Override
