@@ -46,7 +46,9 @@ public class MainActivity extends FragmentActivity {
 		// bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
-		mTabsAdapter.addTab(bar.newTab().setIcon(android.R.drawable.ic_delete),
+		//mTabsAdapter.addTab(bar.newTab().setIcon(android.R.drawable.ic_delete),
+		//		IngredientsFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText("Ingredients"),
 				IngredientsFragment.class, null);
 		mTabsAdapter.addTab(bar.newTab().setText("Dish Type"),
 				TypeFragment.class, null);
