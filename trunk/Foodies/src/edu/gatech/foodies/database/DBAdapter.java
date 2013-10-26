@@ -2,23 +2,24 @@ package edu.gatech.foodies.database;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import edu.gatech.foodies.vo.*;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import edu.gatech.foodies.vo.*;
 
 public class DBAdapter {
-	
+
 	private final Context myContext;
 	private SQLiteDatabase myDB;
 	private DBHelper myHelper;
-	
+
 	public DBAdapter(Context context) {
 		this.myContext = context;
 		myHelper = new DBHelper(myContext);
 	}
-	
+
 	public DBAdapter createDB() throws SQLException {
 		try {
 			myHelper.createDatabase();
@@ -27,7 +28,7 @@ public class DBAdapter {
 		}
 		return this;
 	}
-	
+
 	public DBAdapter openDB() throws SQLException {
 		try {
 			myHelper.openDatabase();
@@ -38,15 +39,27 @@ public class DBAdapter {
 		}
 		return this;
 	}
-	
+
 	public void closeDB() {
 		myHelper.close();
 	}
-	
-	public ArrayList<Recipe> getRecipeByServing() {
+
+	public ArrayList<Recipe> getRecipe(SQL_args... args) {
 		try {
 			ArrayList<Recipe> result = new ArrayList<Recipe>();
-			String sql = "select * from Recipe_Info where Name = 'Pancake'";
+			String sql = "";
+			for(SQL_args a : args) {
+				String attr = a.getAttr();
+				String value = a.getValue();
+				if(attr.equals("Ingredients")) {
+					sql = sql + "select * from Recipe where "+attr+" LIKE '%"+value+"%'";
+					sql = sql + " intersect ";
+				} else {
+					sql = sql + "select * from Recipe where "+attr+" = '"+value+"'";
+					sql = sql + " intersect ";
+				}
+			}
+			sql = sql.substring(0, sql.length()-10);
 			Cursor myCur = myDB.rawQuery(sql, null);
 			if(myCur != null) {
 				myCur.moveToFirst();
@@ -62,14 +75,15 @@ public class DBAdapter {
 			throw e;
 		}
 	}
-	
+
 	private Recipe cursorToRecipe(Cursor cur) {
 		Recipe r = new Recipe();
-		r.setName(cur.getString(0));
-		r.setIngredients(cur.getString(1));
-		r.setTime(cur.getInt(2));
-		r.setServings(cur.getInt(3));
-		r.setInstruction(cur.getString(4));
+		r.setType(cur.getString(0));
+		r.setName(cur.getString(1));
+		r.setIngredients(cur.getString(2));
+		r.setTime(cur.getInt(3));
+		r.setServings(cur.getInt(4));
+		r.setInstruction(cur.getString(5));
 		return r;
 	}
 }
