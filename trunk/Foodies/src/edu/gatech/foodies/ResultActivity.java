@@ -61,6 +61,7 @@ public class ResultActivity extends ListActivity {
             mIcon2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_egg_drop);
             mIcon3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_salmon);
             mIcon4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_cookies);
+            iconList = new ArrayList<Bitmap>();
             iconList.add(mIcon1);
             iconList.add(mIcon2);
             iconList.add(mIcon3);
