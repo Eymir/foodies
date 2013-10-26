@@ -14,16 +14,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
-	
+
 	private SQLiteDatabase myDataBase;
 	private final Context myContext;
 	private static final String DATABASE_NAME = "foodies.db";
-	public final static String DATABASE_PATH = "/data/data/com.example.dbtest/databases/";
+	public static String DATABASE_PATH = "";
 	public static final int DATABASE_VERSION = 1;
 
 	//Constructor
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		if(android.os.Build.VERSION.SDK_INT >= 4.2) {
+			DATABASE_PATH = context.getApplicationInfo().dataDir + "/databases/";         
+		}
+		else {
+			DATABASE_PATH = "/data/data/" + context.getPackageName() + "/databases/";
+		}
 		this.myContext = context;
 	}
 
@@ -101,7 +107,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public void onCreate(SQLiteDatabase db)	{
-		
+
 	}
 
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {    
