@@ -1,11 +1,12 @@
 package edu.gatech.foodies.database;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import edu.gatech.foodies.vo.*;
 
 public class DBAdapter {
 	
@@ -42,15 +43,33 @@ public class DBAdapter {
 		myHelper.close();
 	}
 	
-	public void testDB() {
-		String sql = "select * from Recipe_Info";
-		Cursor mCur = myDB.rawQuery(sql, null);
-		
-		if (mCur!=null)
-        {
-           mCur.moveToNext();
-        }
-		
-		Log.v("Test",mCur.getString(0));
+	public ArrayList<Recipe> getRecipeByServing() {
+		try {
+			ArrayList<Recipe> result = new ArrayList<Recipe>();
+			String sql = "select * from Recipe_Info where Name = 'Pancake'";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				while(!myCur.isAfterLast()) {
+					Recipe r = cursorToRecipe(myCur);
+					result.add(r);
+					myCur.moveToNext();
+				}
+				myCur.close();
+			}
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+	}
+	
+	private Recipe cursorToRecipe(Cursor cur) {
+		Recipe r = new Recipe();
+		r.setName(cur.getString(0));
+		r.setIngredients(cur.getString(1));
+		r.setTime(cur.getInt(2));
+		r.setServings(cur.getInt(3));
+		r.setInstruction(cur.getString(4));
+		return r;
 	}
 }
