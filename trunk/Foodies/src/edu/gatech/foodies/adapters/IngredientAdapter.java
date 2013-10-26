@@ -1,5 +1,7 @@
 package edu.gatech.foodies.adapters;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,11 @@ import edu.gatech.foodies.R;
 
 public class IngredientAdapter extends BaseAdapter {
 	private Context context;
-	private final String[] mobileValues;
+	private ArrayList<Integer> inPicsNoId;
 
-	public IngredientAdapter(Context context, String[] mobileValues) {
+	public IngredientAdapter(Context context, ArrayList<Integer> inPicsNoId) {
 		this.context = context;
-		this.mobileValues = mobileValues;
+		this.inPicsNoId = inPicsNoId;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -35,18 +37,8 @@ public class IngredientAdapter extends BaseAdapter {
 			// set image based on selected text
 			ImageView imageView = (ImageView) gridView
 					.findViewById(R.id.grid_item_image);
-
-			String mobile = mobileValues[position];
-
-			if (mobile.equals("Windows")) {
-				imageView.setImageResource(R.drawable.windows_logo);
-			} else if (mobile.equals("iOS")) {
-				imageView.setImageResource(R.drawable.ios_logo);
-			} else if (mobile.equals("Blackberry")) {
-				imageView.setImageResource(R.drawable.blackberry_logo);
-			} else {
-				imageView.setImageResource(R.drawable.android_logo);
-			}
+			
+			imageView.setImageResource(inPicsNoId.get(position));
 
 		} else {
 			gridView = (View) convertView;
@@ -57,7 +49,7 @@ public class IngredientAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mobileValues.length;
+		return inPicsNoId.size();
 	}
 
 	@Override
