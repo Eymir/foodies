@@ -36,15 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	//Create a empty database on the system
 	public void createDatabase() throws IOException {
 		boolean dbExist = checkDataBase();
-		if(dbExist)	{
-			Log.v("DB Exists", "db exists");
-			// By calling this method here onUpgrade will be called on a
-			// writeable database, but only if the version number has been
-			// bumped
-			//onUpgrade(myDataBase, DATABASE_VERSION_old, DATABASE_VERSION);
-		}
-		boolean dbExist1 = checkDataBase();
-		if(!dbExist1) {
+		if(!dbExist) {
 			this.getReadableDatabase();
 			try	{
 				this.close();    
