@@ -1,7 +1,7 @@
 package edu.gatech.foodies;
 
 import java.util.ArrayList;
-
+import java.util.Hashtable;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import edu.gatech.foodies.database.DBAdapter;
 
 public class MainActivity extends FragmentActivity {
 
@@ -29,17 +28,18 @@ public class MainActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	DBAdapter myDB;
+	Hashtable<Integer, Bundle> table;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		myDB = new DBAdapter(this);
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mTabsAdapter);
 		mViewPager.setOffscreenPageLimit(2);
+		
+		table = new Hashtable<Integer, Bundle>();
 
 		final ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -57,6 +57,15 @@ public class MainActivity extends FragmentActivity {
 			bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 		}
 	}
+	
+	public void saveData(int id, Bundle data) {
+		table.put(id, data);
+	}
+	
+	public Bundle getData(int id) {
+		Bundle b = table.get(id);
+		return b;
+	}
 
 	@Override
 	protected void onResume(){
@@ -66,7 +75,6 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		myDB.closeDB();
 	}
 
 	@Override

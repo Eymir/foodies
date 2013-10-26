@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,17 @@ import edu.gatech.foodies.database.DBAdapter;
 
 public class IngredientsFragment extends Fragment {
 	DBAdapter myDB;
-	
+
 	ArrayList<String> inPicsNo;
 	ArrayList<Integer> inPicsNoId;
-	
+
 	ArrayList<String> inPicsYes;
 	ArrayList<Integer> inPicsYesId;
-	
-	static ArrayList<Boolean> inBoolList; 
+
+	ArrayList<Boolean> inBoolList; 
 	ArrayList<String> inPicsName;
 	ArrayList<String> inResult;
-	
+
 	GridView gridView;
 
 	@Override
@@ -34,23 +35,23 @@ public class IngredientsFragment extends Fragment {
 		myDB = new DBAdapter(getActivity());
 		myDB.createDB();
 		myDB.openDB();
-		
+
 		inBoolList = new ArrayList<Boolean>();
 		inResult = new ArrayList<String>();
 		inPicsName = myDB.getInPicsName();
 
 		inPicsNo = myDB.getInPics("No");
 		inPicsNoId = new ArrayList<Integer>();
-		
+
 		for(String s : inPicsNo) {
 			int id = getActivity().getResources().getIdentifier(s, "drawable", getActivity().getPackageName());
 			inPicsNoId.add(id);
 			inBoolList.add(false);
 		}
-		
+
 		inPicsYes = myDB.getInPics("Yes");
 		inPicsYesId = new ArrayList<Integer>();
-		
+
 		for(String s : inPicsYes) {
 			int id = getActivity().getResources().getIdentifier(s, "drawable", getActivity().getPackageName());
 			inPicsYesId.add(id);
@@ -75,5 +76,23 @@ public class IngredientsFragment extends Fragment {
 			}
 		});
 		return rootView;
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		for(int i = 0; i < inBoolList.size(); i++){
+			if(inBoolList.get(i)) {
+				inResult.add(inPicsName.get(i));
+			}
+		}
+		Bundle b = new Bundle();
+		for(int i = 0; i < inResult.size(); i++) {
+			b.putString(""+i, inResult.get(i));
+			Log.v("bunble 1", inResult.get(i));
+		}
+		MainActivity a = (MainActivity)getActivity();
+		a.saveData(1, b);
+		myDB.closeDB();
 	}
 }
