@@ -18,6 +18,10 @@ package edu.gatech.foodies;
 
 import java.util.ArrayList;
 
+import edu.gatech.foodies.database.DBAdapter;
+import edu.gatech.foodies.vo.Recipe;
+import edu.gatech.foodies.vo.SQL_args;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +49,39 @@ import android.widget.TextView;
  * avoiding calls to findViewById() every time getView() is invoked.
  */
 public class ResultActivity extends ListActivity {
-
+	
+    DBAdapter myDB;
+    static ArrayList<Recipe> result;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        myDB = new DBAdapter(this);
+        myDB.createDB();
+        myDB.openDB();
+        
+        ArrayList<SQL_args> args = new ArrayList<SQL_args>();
+        Intent i = getIntent();
+        Bundle in = i.getBundleExtra("in");
+        Bundle type = i.getBundleExtra("type");
+        String time = i.getStringExtra("time");
+        
+        for(int k = 0; k < in.size(); k++) {
+        	SQL_args a = new SQL_args("Ingredients", in.getString(""+i));
+        	args.add(a);
+        }
+        for(int k = 0; k < type.size(); k++) {
+        	SQL_args a = new SQL_args("Type", type.getString(""+i));
+        	args.add(a);
+        }
+        args.add(new SQL_args("Time", time));
+        
+        result = myDB.getRecipe(args);
+        
+        setListAdapter(new EfficientAdapter(this));
+        getListView().setBackgroundColor(getResources().getColor(R.color.green));
+    }
+    
     private static class EfficientAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
         private Bitmap mIcon1;
@@ -77,7 +113,7 @@ public class ResultActivity extends ListActivity {
          * @see android.widget.ListAdapter#getCount()
          */
         public int getCount() {
-            return DATA.length;
+            return result.size();
         }
 
         /**
@@ -132,7 +168,7 @@ public class ResultActivity extends ListActivity {
             }
 
             // Bind the data efficiently with the holder.
-            holder.text.setText(DATA[position]);
+            holder.text.setText(result.get(position).getName());
             //holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
             holder.icon.setImageBitmap(iconList.get(position));
 
@@ -146,22 +182,13 @@ public class ResultActivity extends ListActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setListAdapter(new EfficientAdapter(this));
-        getListView().setBackgroundColor(getResources().getColor(R.color.green));
-        
-    }
-    
-    @Override
     protected void onListItemClick(ListView l, View v, int position, long id){
     	super.onListItemClick(l, v, position, id);
     	Intent i = new Intent(this, RecipeActivity.class);
     	
-    	i.putExtra("RECIPE_NAME", DATA[position]);
+    	i.putExtra("RECIPE_NAME", result.get(position).getName());
     	startActivity(i);
     	
     }
 
-    private static final String[] DATA = {"Pancakes", "Egg Drop Soup", "Salmon Mousse", "Chocolate Cookies"};
 }
