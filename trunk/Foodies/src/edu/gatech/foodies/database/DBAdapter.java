@@ -1,13 +1,11 @@
 package edu.gatech.foodies.database;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import edu.gatech.foodies.vo.*;
+import android.util.Log;
 
 public class DBAdapter {
 	
@@ -22,7 +20,7 @@ public class DBAdapter {
 	
 	public DBAdapter createDB() throws SQLException {
 		try {
-			myHelper.createDB();
+			myHelper.createDatabase();
 		} catch (IOException e) {
 			throw new Error("Can't create database.");
 		}
@@ -31,7 +29,7 @@ public class DBAdapter {
 	
 	public DBAdapter openDB() throws SQLException {
 		try {
-			myHelper.openDB();
+			myHelper.openDatabase();
 			myHelper.close();
 			myDB = myHelper.getReadableDatabase();
 		} catch (SQLException e) {
@@ -44,33 +42,15 @@ public class DBAdapter {
 		myHelper.close();
 	}
 	
-	public ArrayList<Recipe> getInstructionByRecipe(String recipe_name) {
-		ArrayList<Recipe> result = new ArrayList<Recipe>();
-		try {
-			String sql = "select Instruction from Recipe_Info where Name = '" + recipe_name +"'";
-			Cursor myCur = myDB.rawQuery(sql, null);
-			if(myCur != null) {
-				myCur.moveToFirst();
-				while(!myCur.isAfterLast()) {
-					Recipe r = cursorToRecipe(myCur);
-					result.add(r);
-					myCur.moveToNext();
-				}
-			}
-			myCur.close();
-			return result;
-		} catch (SQLException e) {
-			throw e;
-		}
-	}
-	
-	private Recipe cursorToRecipe(Cursor cur) {
-		Recipe r = new Recipe();
-		r.setName(cur.getString(0));
-		r.setIngredients(cur.getString(1));
-		r.setTime(cur.getInt(2));
-		r.setServings(cur.getInt(3));
-		r.setInstruction(cur.getString(4));
-		return r;
+	public void testDB() {
+		String sql = "select * from Recipe_Info";
+		Cursor mCur = myDB.rawQuery(sql, null);
+		
+		if (mCur!=null)
+        {
+           mCur.moveToNext();
+        }
+		
+		Log.v("Test",mCur.getString(0));
 	}
 }
