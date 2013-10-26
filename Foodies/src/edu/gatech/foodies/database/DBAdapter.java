@@ -49,21 +49,28 @@ public class DBAdapter {
 		try {
 			ArrayList<Recipe> result = new ArrayList<Recipe>();
 			String sql = "";
+			ArrayList<String> type = new ArrayList<String>();
 			for(SQL_args a : args) {
 				String attr = a.getAttr();
 				String value = a.getValue();
 				if(attr.equals("Ingredients")) {
 					sql = sql + "select * from Recipe where Ingredients LIKE '%"+value+"%'";
 					sql = sql + " intersect ";
-				} else if(attr.equals("Time")){
+				} else if(attr.equals("Time")) {
 					sql = sql + "select * from Recipe where Time <= '"+value+"'";
 					sql = sql + " intersect ";
+				} else if(attr.equals("Type")) {
+					type.add(value);
 				} else {
 					sql = sql + "select * from Recipe where "+attr+" = '"+value+"'";
 					sql = sql + " intersect ";
 				}
 			}
-			sql = sql.substring(0, sql.length()-10);
+			sql = sql + "select * from Recipe where Type in (";
+			for(int i = 0; i < type.size(); i++) {
+				sql = sql + "'"+type.get(i)+"',"; 
+			}
+			sql = sql.substring(0, sql.length()-1) + ")";
 			Cursor myCur = myDB.rawQuery(sql, null);
 			if(myCur != null) {
 				myCur.moveToFirst();
@@ -72,7 +79,6 @@ public class DBAdapter {
 					result.add(r);
 					myCur.moveToNext();
 				}
-				myCur.close();
 			}
 			myCur.close();
 			return result;
@@ -81,51 +87,45 @@ public class DBAdapter {
 		}
 	}
 	
-//	public String getInPics(String name, boolean pressed) {
-//		String result = "";
-//		try {
-//			String column;
-//			if(pressed) {
-//				column = "Yes";
-//			} else {
-//				column = "No";
-//			}
-//			String sql = "select "+column+" from Pics_In where Name = '"+name+"'";
-//			Cursor myCur = myDB.rawQuery(sql, null);
-//			if(myCur != null) {
-//				myCur.moveToFirst();
-//				result = myCur.getString(0);
-//			}
-//			myCur.close();
-//			return result;
-//		} catch (SQLException e) {
-//			throw e;
-//		}
-//		
-//	}
-//	
-//	public String getTypePics(String name, boolean pressed) {
-//		String result = "";
-//		try {
-//			String column;
-//			if(pressed) {
-//				column = "Yes";
-//			} else {
-//				column = "No";
-//			}
-//			String sql = "select "+column+" from Pics_Type where Name = '"+name+"'";
-//			Cursor myCur = myDB.rawQuery(sql, null);
-//			if(myCur != null) {
-//				myCur.moveToFirst();
-//				result = myCur.getString(0);
-//			}
-//			myCur.close();
-//			return result;
-//		} catch (SQLException e) {
-//			throw e;
-//		}
-//		
-//	}
+	public ArrayList<String> getInPicsName() {
+		try {
+			ArrayList<String> result = new ArrayList<String>();
+			String sql = "select Name from Pics_In";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				while(!myCur.isAfterLast()) {
+					String s = myCur.getString(0);
+					result.add(s);
+					myCur.moveToNext();
+				}
+			}
+			myCur.close();
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+	}
+	
+	public ArrayList<String> getTypePicsName() {
+		try {
+			ArrayList<String> result = new ArrayList<String>();
+			String sql = "select Name from Pics_Type";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				while(!myCur.isAfterLast()) {
+					String s = myCur.getString(0);
+					result.add(s);
+					myCur.moveToNext();
+				}
+			}
+			myCur.close();
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+	}
 	
 	public ArrayList<String> getInPics(String value) {
 		ArrayList<String> result = new ArrayList<String>();

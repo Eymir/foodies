@@ -24,6 +24,8 @@ DBAdapter myDB;
 	ArrayList<Integer> typePicsYesId;
 	
 	ArrayList<Boolean> typeBoolList; 
+	ArrayList<String> typePicsName;
+	ArrayList<String> typeResult;
 	GridView gridView;
 	
 	@Override
@@ -34,6 +36,8 @@ DBAdapter myDB;
 		myDB.openDB();
 		
 		typeBoolList = new ArrayList<Boolean>();
+		typeResult = new ArrayList<String>();
+		typePicsName = myDB.getInPicsName();
 
 		typePicsNo = myDB.getTypePics("No");
 		typePicsNoId = new ArrayList<Integer>();

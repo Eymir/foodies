@@ -24,6 +24,9 @@ public class IngredientsFragment extends Fragment {
 	ArrayList<Integer> inPicsYesId;
 	
 	ArrayList<Boolean> inBoolList; 
+	ArrayList<String> inPicsName;
+	ArrayList<String> inResult;
+	
 	GridView gridView;
 
 	@Override
@@ -33,6 +36,8 @@ public class IngredientsFragment extends Fragment {
 		myDB.openDB();
 		
 		inBoolList = new ArrayList<Boolean>();
+		inResult = new ArrayList<String>();
+		inPicsName = myDB.getInPicsName();
 
 		inPicsNo = myDB.getInPics("No");
 		inPicsNoId = new ArrayList<Integer>();
