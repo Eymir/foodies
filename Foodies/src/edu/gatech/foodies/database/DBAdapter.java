@@ -127,10 +127,30 @@ public class DBAdapter {
 //		
 //	}
 	
-	public ArrayList<String> getInPicsNo() {
+	public ArrayList<String> getInPics(String value) {
 		ArrayList<String> result = new ArrayList<String>();
 		try {
-			String sql = "select No from Pics_In where No is not null";
+			String sql = "select "+value+" from Pics_In where "+value+" is not null";
+			Cursor myCur = myDB.rawQuery(sql, null);
+			if(myCur != null) {
+				myCur.moveToFirst();
+				while(!myCur.isAfterLast()) {
+					String s = myCur.getString(0);
+					result.add(s);
+					myCur.moveToNext();
+				}
+			}
+			myCur.close();
+			return result;
+		} catch (SQLException e) {
+			throw e;
+		}
+	}
+	
+	public ArrayList<String> getTypePics(String value) {
+		ArrayList<String> result = new ArrayList<String>();
+		try {
+			String sql = "select "+value+" from Pics_Type where "+value+" is not null";
 			Cursor myCur = myDB.rawQuery(sql, null);
 			if(myCur != null) {
 				myCur.moveToFirst();
