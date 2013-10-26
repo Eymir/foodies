@@ -19,11 +19,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView android:id="@+id/icon"
-        android:layout_width="48dip"
-        android:layout_height="48dip" />
+    <ImageView android:id="@+id/recipe_icon"
+        android:layout_width="96dp"
+        android:layout_height="96dp" />
 
-    <TextView android:id="@+id/text"
+    <TextView android:id="@+id/recipe_text"
         android:layout_gravity="center_vertical"
         android:layout_width="0dip"
         android:layout_weight="1.0"

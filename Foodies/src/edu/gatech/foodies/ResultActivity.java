@@ -16,6 +16,8 @@
 
 package edu.gatech.foodies;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -46,14 +48,23 @@ public class ResultActivity extends ListActivity {
         private LayoutInflater mInflater;
         private Bitmap mIcon1;
         private Bitmap mIcon2;
+        private Bitmap mIcon3;
+        private Bitmap mIcon4;
+        private ArrayList<Bitmap> iconList;
 
         public EfficientAdapter(Context context) {
             // Cache the LayoutInflate to avoid asking for a new one each time.
             mInflater = LayoutInflater.from(context);
 
             // Icons bound to the rows.
-            mIcon1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.app_logo);
-            mIcon2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.android_logo);
+            mIcon1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_pancakes);
+            mIcon2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_egg_drop);
+            mIcon3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_salmon);
+            mIcon4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_cookies);
+            iconList.add(mIcon1);
+            iconList.add(mIcon2);
+            iconList.add(mIcon3);
+            iconList.add(mIcon4);
         }
 
         /**
@@ -107,8 +118,8 @@ public class ResultActivity extends ListActivity {
                 // Creates a ViewHolder and store references to the two children views
                 // we want to bind data to.
                 holder = new ViewHolder();
-                holder.text = (TextView) convertView.findViewById(R.id.text);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.text = (TextView) convertView.findViewById(R.id.recipe_text);
+                holder.icon = (ImageView) convertView.findViewById(R.id.recipe_icon);
 
                 convertView.setTag(holder);
             } else {
@@ -119,7 +130,8 @@ public class ResultActivity extends ListActivity {
 
             // Bind the data efficiently with the holder.
             holder.text.setText(DATA[position]);
-            holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
+            //holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
+            holder.icon.setImageBitmap(iconList.get(position));
 
             return convertView;
         }

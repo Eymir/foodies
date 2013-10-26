@@ -19,9 +19,10 @@
         android:id="@+id/btn_findrecipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="51dp"
+        android:background="@drawable/ic_search_pressed"
         android:text="Find Recipes" />
 
     <TextView
@@ -31,7 +32,9 @@
         android:layout_above="@+id/picker"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="47dp"
+        android:background="#c35767"
         android:text="Preparation Time"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>
