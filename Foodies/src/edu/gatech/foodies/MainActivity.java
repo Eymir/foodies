@@ -10,11 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import edu.gatech.foodies.database.DBAdapter;
-import edu.gatech.foodies.vo.Recipe;
-import edu.gatech.foodies.vo.SQL_args;
 
 public class MainActivity extends FragmentActivity {
 
@@ -42,6 +39,7 @@ public class MainActivity extends FragmentActivity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mTabsAdapter);
+		mViewPager.setOffscreenPageLimit(2);
 
 		final ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -63,21 +61,6 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		myDB.createDB();
-		myDB.openDB();
-
-		SQL_args a = new SQL_args("Type", "Breakfast");
-		SQL_args b = new SQL_args("Type", "Soup");
-		SQL_args c = new SQL_args("Time", "20");
-		SQL_args d = new SQL_args("Ingredients", "Egg");
-		
-		ArrayList<Recipe> result = myDB.getRecipe(a,b,c,d);
-		if(!result.isEmpty()) {
-			int len = result.size();
-			for(int i = 0; i < len; i++){
-				Log.v("Recipe result", result.get(i).getName());
-			}
-		}
 	}
 	
 	@Override

@@ -23,7 +23,7 @@ public class IngredientsFragment extends Fragment {
 	ArrayList<String> inPicsYes;
 	ArrayList<Integer> inPicsYesId;
 	
-	ArrayList<Boolean> inBoolList; 
+	static ArrayList<Boolean> inBoolList; 
 	ArrayList<String> inPicsName;
 	ArrayList<String> inResult;
 	

@@ -23,7 +23,7 @@ DBAdapter myDB;
 	ArrayList<String> typePicsYes;
 	ArrayList<Integer> typePicsYesId;
 	
-	ArrayList<Boolean> typeBoolList; 
+	static ArrayList<Boolean> typeBoolList; 
 	ArrayList<String> typePicsName;
 	ArrayList<String> typeResult;
 	GridView gridView;
